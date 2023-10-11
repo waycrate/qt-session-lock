@@ -2,6 +2,7 @@
 #include "wayland-ext-session-lock-v1-client-protocol.h"
 #include "window.h"
 
+#include <QtWaylandClient/private/qwaylandscreen_p.h>
 #include <QtWaylandClient/private/qwaylandshellsurface_p.h>
 #include <QtWaylandClient/private/qwaylandsurface_p.h>
 #include <QtWaylandClient/private/qwaylandwindow_p.h>
@@ -15,7 +16,9 @@ QWaylandExtLockSurface::QWaylandExtLockSurface(QtWayland::ext_session_lock_v1 *l
 {
     auto inteface = Window::get(window->window());
     if (!inteface) {
-        init(lock->get_lock_surface(window->waylandSurface()->object(), nullptr));
+        auto waylandScreen =
+          dynamic_cast<QtWaylandClient::QWaylandScreen *>(window->window()->screen()->handle());
+        init(lock->get_lock_surface(window->waylandSurface()->object(), waylandScreen->output()));
     } else {
         init(lock->get_lock_surface(window->waylandSurface()->object(), inteface->get_wl_output()));
     }

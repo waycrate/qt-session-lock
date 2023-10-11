@@ -7,7 +7,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui WaylandClient)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui WaylandClient Qml)
 find_package(Qt6WaylandScannerTools REQUIRED)
 
 find_package(Wayland 1.3 COMPONENTS Client Server)
@@ -49,6 +49,16 @@ target_link_libraries(sessionlockqt
     PkgConfig::XKBCOMMON
 )
 
+set_target_properties(sessionlockqt PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/wayland-shell-integration"
+)
+
 target_include_directories(sessionlockqt PUBLIC
     src/interfaces
+)
+
+add_executable(sessionlock-test test/main.cpp)
+target_link_libraries(sessionlock-test PRIVATE SessionLockQtInterface Qt6::Qml Qt6::Gui Wayland::Client Qt6::WaylandClientPrivate)
+target_include_directories(sessionlock-test PUBLIC
+    src
 )
