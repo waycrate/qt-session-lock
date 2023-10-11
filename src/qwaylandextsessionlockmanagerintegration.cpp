@@ -7,6 +7,7 @@ using QtWaylandClient::QWaylandShellIntegrationTemplate;
 QWaylandExtSessionLockManagerIntegration::QWaylandExtSessionLockManagerIntegration()
   : QWaylandShellIntegrationTemplate<QWaylandExtSessionLockManagerIntegration>(1)
 {
+    m_lock = new QtWayland::ext_session_lock_v1(lock());
 }
 
 QWaylandExtSessionLockManagerIntegration::~QWaylandExtSessionLockManagerIntegration()
@@ -21,6 +22,6 @@ QtWaylandClient::QWaylandShellSurface *
 QWaylandExtSessionLockManagerIntegration::createShellSurface(
   QtWaylandClient::QWaylandWindow *window)
 {
-    return new QWaylandExtLockSurface(this, window);
+    return new QWaylandExtLockSurface(m_lock, window);
 }
 }

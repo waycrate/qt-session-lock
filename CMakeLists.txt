@@ -30,8 +30,8 @@ target_link_libraries(SessionLockQtInterface PUBLIC
 add_library(sessionlockqt SHARED
   src/qwaylandextsessionlocksurface.h
   src/qwaylandextsessionlocksurface.cpp
-  src/qwaylandextsessionlockintegration.h
-  src/qwaylandextsessionlockintegration.cpp
+  src/qwaylandextsessionlockmanagerintegration.h
+  src/qwaylandextsessionlockmanagerintegration.cpp
 )
 
 target_link_libraries(sessionlockqt

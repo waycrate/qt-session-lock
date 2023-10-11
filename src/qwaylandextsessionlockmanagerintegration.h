@@ -15,6 +15,8 @@ public:
 
     QtWaylandClient::QWaylandShellSurface *
     createShellSurface(QtWaylandClient::QWaylandWindow *window) override;
+private:
+    QtWayland::ext_session_lock_v1 *m_lock;
 };
 
 }
