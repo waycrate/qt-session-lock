@@ -13,18 +13,16 @@ class QWaylandExtLockSurface
 public:
     explicit QWaylandExtLockSurface(QtWayland::ext_session_lock_v1 *lock,
                                     QtWaylandClient::QWaylandWindow *window);
-    ~QWaylandExtLockSurface() = default;
+    ~QWaylandExtLockSurface() override;
 
-    bool isExposed() const override
-    {
-        return m_configured;
-    }
+    bool isExposed() const override { return m_configured; }
     void applyConfigure() override;
 
 private:
     void ext_session_lock_surface_v1_configure(uint32_t serial,
                                                uint32_t width,
                                                uint32_t height) override;
+
 private:
     QSize m_peddingSize;
     bool m_configured = false;

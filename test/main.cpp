@@ -5,7 +5,7 @@
  */
 
 #include "interfaces/shell.h"
-#include <QCommandLineParser>
+#include "interfaces/window.h"
 
 #include <QGuiApplication>
 #include <QPainter>
@@ -19,7 +19,6 @@
 #include <QtWaylandClient/private/qwaylandscreen_p.h>
 #include <QtWaylandClient/private/qwaylandsurface_p.h>
 #include <QtWaylandClient/private/qwaylandwindow_p.h>
-#include <interfaces/window.h>
 
 using namespace ExtSessionLockV1Qt;
 

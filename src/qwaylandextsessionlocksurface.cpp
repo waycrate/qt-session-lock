@@ -6,7 +6,6 @@
 #include <QtWaylandClient/private/qwaylandshellsurface_p.h>
 #include <QtWaylandClient/private/qwaylandsurface_p.h>
 #include <QtWaylandClient/private/qwaylandwindow_p.h>
-
 namespace ExtSessionLockV1Qt {
 
 QWaylandExtLockSurface::QWaylandExtLockSurface(QtWayland::ext_session_lock_v1 *lock,
@@ -23,6 +22,11 @@ QWaylandExtLockSurface::QWaylandExtLockSurface(QtWayland::ext_session_lock_v1 *l
     } else {
         init(lock->get_lock_surface(window->waylandSurface()->object(), inteface->get_wl_output()));
     }
+}
+
+QWaylandExtLockSurface::~QWaylandExtLockSurface()
+{
+    destroy();
 }
 
 void
