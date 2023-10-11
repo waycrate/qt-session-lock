@@ -3,7 +3,6 @@
 #include "wayland-ext-session-lock-v1-client-protocol.h"
 
 namespace ExtSessionLockV1Qt {
-using QtWaylandClient::QWaylandShellIntegrationTemplate;
 QWaylandExtSessionLockManagerIntegration::QWaylandExtSessionLockManagerIntegration()
   : QWaylandShellIntegrationTemplate<QWaylandExtSessionLockManagerIntegration>(1)
 {

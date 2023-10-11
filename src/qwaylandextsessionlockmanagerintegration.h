@@ -6,7 +6,8 @@
 namespace ExtSessionLockV1Qt {
 
 class QWaylandExtSessionLockManagerIntegration
-  : public QtWaylandClient::QWaylandShellIntegrationTemplate<QWaylandExtSessionLockManagerIntegration>
+  : public QtWaylandClient::QWaylandShellIntegrationTemplate<
+      QWaylandExtSessionLockManagerIntegration>
   , public QtWayland::ext_session_lock_manager_v1
 {
 public:
@@ -15,6 +16,7 @@ public:
 
     QtWaylandClient::QWaylandShellSurface *
     createShellSurface(QtWaylandClient::QWaylandWindow *window) override;
+
 private:
     QtWayland::ext_session_lock_v1 *m_lock;
 };
