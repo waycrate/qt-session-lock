@@ -16,6 +16,7 @@ QWaylandExtLockSurface::QWaylandExtLockSurface(QtWayland::ext_session_lock_v1 *l
 {
     auto inteface = Window::get(window->window());
     if (!inteface) {
+        // TODO:
         auto waylandScreen =
           dynamic_cast<QtWaylandClient::QWaylandScreen *>(window->window()->screen()->handle());
         init(lock->get_lock_surface(window->waylandSurface()->object(), waylandScreen->output()));

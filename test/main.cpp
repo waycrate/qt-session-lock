@@ -69,6 +69,6 @@ main(int argc, char **argv)
     Window::registWindow(&window, waylandScreen->output());
 
     // just so you don't block yourself out whilst testing
-    QTimer::singleShot(5000, &app, &QGuiApplication::quit);
+    //QTimer::singleShot(50, &app, &QGuiApplication::quit);
     return app.exec();
 }
