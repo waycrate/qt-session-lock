@@ -5,13 +5,13 @@
 
 namespace ExtSessionLockV1Qt {
 
-class QWaylandSessionLockIntegration
-  : public QtWaylandClient::QWaylandShellIntegrationTemplate<QWaylandSessionLockIntegration>
+class QWaylandExtSessionLockIntegration
+  : public QtWaylandClient::QWaylandShellIntegrationTemplate<QWaylandExtSessionLockIntegration>
   , public QtWayland::ext_session_lock_v1
 {
 public:
-    QWaylandSessionLockIntegration();
-    ~QWaylandSessionLockIntegration() override;
+    QWaylandExtSessionLockIntegration();
+    ~QWaylandExtSessionLockIntegration() override;
 
     QtWaylandClient::QWaylandShellSurface *
     createShellSurface(QtWaylandClient::QWaylandWindow *window) override;

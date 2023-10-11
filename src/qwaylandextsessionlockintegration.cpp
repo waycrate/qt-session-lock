@@ -4,12 +4,12 @@
 
 namespace ExtSessionLockV1Qt {
 using QtWaylandClient::QWaylandShellIntegrationTemplate;
-QWaylandSessionLockIntegration::QWaylandSessionLockIntegration()
-  : QWaylandShellIntegrationTemplate<QWaylandSessionLockIntegration>(1)
+QWaylandExtSessionLockIntegration::QWaylandExtSessionLockIntegration()
+  : QWaylandShellIntegrationTemplate<QWaylandExtSessionLockIntegration>(1)
 {
 }
 
-QWaylandSessionLockIntegration::~QWaylandSessionLockIntegration()
+QWaylandExtSessionLockIntegration::~QWaylandExtSessionLockIntegration()
 {
     if (object() &&
         ext_session_lock_v1_get_version(object()) >= EXT_SESSION_LOCK_V1_DESTROY_SINCE_VERSION) {
@@ -18,7 +18,7 @@ QWaylandSessionLockIntegration::~QWaylandSessionLockIntegration()
 }
 
 QtWaylandClient::QWaylandShellSurface *
-QWaylandSessionLockIntegration::createShellSurface(QtWaylandClient::QWaylandWindow *window)
+QWaylandExtSessionLockIntegration::createShellSurface(QtWaylandClient::QWaylandWindow *window)
 {
     return new QWaylandExtLockSurface(this, window);
 }
