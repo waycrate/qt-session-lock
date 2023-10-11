@@ -33,6 +33,8 @@ add_library(sessionlockqt SHARED
   src/qwaylandextsessionlocksurface.cpp
   src/qwaylandextsessionlockmanagerintegration.h
   src/qwaylandextsessionlockmanagerintegration.cpp
+  src/interfaces/window.h
+  src/interfaces/window.cpp
 )
 
 target_link_libraries(sessionlockqt
@@ -41,4 +43,8 @@ target_link_libraries(sessionlockqt
   Qt6::Core
   SessionLockQtInterface
   PkgConfig::XKBCOMMON
+)
+
+target_include_directories(sessionlockqt PUBLIC
+    src/interfaces
 )
