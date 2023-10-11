@@ -22,7 +22,12 @@ qt6_generate_wayland_protocol_client_sources(SessionLockQtInterface FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/misc/ext-session-lock-v1.xml
 )
 
-target_sources(SessionLockQtInterface PRIVATE src/interfaces/window.h src/interfaces/window.cpp)
+target_sources(SessionLockQtInterface PRIVATE
+    src/interfaces/window.h
+    src/interfaces/window.cpp
+    src/interfaces/shell.h
+    src/interfaces/shell.cpp
+)
 
 target_link_libraries(SessionLockQtInterface PUBLIC Qt6::Gui Qt6::Core)
 target_link_libraries(SessionLockQtInterface PRIVATE Qt6::WaylandClientPrivate Wayland::Client PkgConfig::XKBCOMMON)
@@ -32,6 +37,8 @@ add_library(sessionlockqt SHARED
     src/qwaylandextsessionlocksurface.cpp
     src/qwaylandextsessionlockmanagerintegration.h
     src/qwaylandextsessionlockmanagerintegration.cpp
+    src/qwaylandextsessionlockintegrationplugin.h
+    src/qwaylandextsessionlockintegrationplugin.cpp
 )
 
 target_link_libraries(sessionlockqt
