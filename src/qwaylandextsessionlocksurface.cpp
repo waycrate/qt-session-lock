@@ -15,11 +15,11 @@ QWaylandExtLockSurface::QWaylandExtLockSurface(QtWayland::ext_session_lock_v1 *l
   , QtWayland::ext_session_lock_surface_v1()
 {
     auto inteface = Window::get(window->window());
-    if (!inteface) {
-        // TODO:
+    if (inteface == nullptr) {
         auto waylandScreen =
           dynamic_cast<QtWaylandClient::QWaylandScreen *>(window->window()->screen()->handle());
         init(lock->get_lock_surface(window->waylandSurface()->object(), waylandScreen->output()));
+
     } else {
         init(lock->get_lock_surface(window->waylandSurface()->object(), inteface->get_wl_output()));
     }

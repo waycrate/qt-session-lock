@@ -14,11 +14,12 @@
 #include <QWindow>
 
 #include <QMetaEnum>
+#include <QProcess>
 
-#include <interfaces/window.h>
 #include <QtWaylandClient/private/qwaylandscreen_p.h>
 #include <QtWaylandClient/private/qwaylandsurface_p.h>
 #include <QtWaylandClient/private/qwaylandwindow_p.h>
+#include <interfaces/window.h>
 
 using namespace ExtSessionLockV1Qt;
 
@@ -50,7 +51,7 @@ class BasicWindow : public QRasterWindow
     void paintEvent(QPaintEvent *) override
     {
         QPainter p(this);
-        p.fillRect(QRect(0, 0, width(), height()), Qt::red);
+        p.fillRect(QRect(0, 0, width(), height()), Qt::darkGreen);
     }
 };
 
@@ -63,12 +64,10 @@ main(int argc, char **argv)
 
     BasicWindow window;
 
-    window.show();
-
     auto waylandScreen = dynamic_cast<QtWaylandClient::QWaylandScreen *>(window.screen()->handle());
     Window::registWindow(&window, waylandScreen->output());
 
-    // just so you don't block yourself out whilst testing
-    //QTimer::singleShot(50, &app, &QGuiApplication::quit);
+    window.show();
+
     return app.exec();
 }
