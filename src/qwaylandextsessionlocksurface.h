@@ -11,7 +11,7 @@ class QWaylandExtLockSurface
 {
     Q_OBJECT
 public:
-    explicit QWaylandExtLockSurface(QtWayland::ext_session_lock_v1 *lock,
+    explicit QWaylandExtLockSurface(QtWayland::ext_session_lock_manager_v1 *lock,
                                     QtWaylandClient::QWaylandWindow *window);
     ~QWaylandExtLockSurface() = default;
 };
