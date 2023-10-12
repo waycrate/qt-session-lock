@@ -57,8 +57,8 @@ set_target_properties(SessionLockQtInterface PROPERTIES
 )
 
 target_include_directories(SessionLockQtInterface PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/interfaces>
-  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/SessionLockQt>  # <prefix>/include/mylib
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/interfaces>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/SessionLockQt>  # <prefix>/include/mylib
 )
 
 install(TARGETS SessionLockQtInterface
