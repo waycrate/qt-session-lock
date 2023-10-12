@@ -79,7 +79,7 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/SessionLockQtConfig.cmake
         ${CMAKE_CURRENT_BINARY_DIR}/SessionLockQtConfigVersion.cmake
         DESTINATION ${CONFIG_CMAKE_INSTALL_DIR})
 
-add_library(sessionlockqt SHARED
+add_library(ext-session-lock-v1 SHARED
     src/qwaylandextsessionlocksurface.h
     src/qwaylandextsessionlocksurface.cpp
     src/qwaylandextsessionlockmanagerintegration.h
@@ -88,7 +88,7 @@ add_library(sessionlockqt SHARED
     src/qwaylandextsessionlockintegrationplugin.cpp
 )
 
-target_link_libraries(sessionlockqt
+target_link_libraries(ext-session-lock-v1
     Qt6::WaylandClient
     Qt6::WaylandClientPrivate
     Qt6::Core
@@ -96,11 +96,11 @@ target_link_libraries(sessionlockqt
     PkgConfig::XKBCOMMON
 )
 
-set_target_properties(sessionlockqt PROPERTIES
+set_target_properties(ext-session-lock-v1 PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/wayland-shell-integration"
 )
 
-install(TARGETS sessionlockqt
+install(TARGETS ext-session-lock-v1
         LIBRARY DESTINATION ${QT_PLUGIN_INSTALL_DIR}/wayland-shell-integration)
 
 set(HEADERS
@@ -114,7 +114,7 @@ install(FILES
     DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/SessionLockQt COMPONENT Devel
 )
 
-target_include_directories(sessionlockqt PUBLIC
+target_include_directories(ext-session-lock-v1 PUBLIC
     src/interfaces
 )
 
