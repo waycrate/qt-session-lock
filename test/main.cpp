@@ -42,11 +42,21 @@ stringToEnum(QMetaEnum metaEnum, const QString &str)
 
 class BasicWindow : public QRasterWindow
 {
+public:
+    explicit BasicWindow(QColor color)
+      : m_color(color)
+    {
+    }
+
+private:
     void paintEvent(QPaintEvent *) override
     {
         QPainter p(this);
-        p.fillRect(QRect(0, 0, width(), height()), Qt::blue);
+        p.fillRect(QRect(0, 0, width(), height()), m_color);
     }
+
+private:
+    QColor m_color;
 };
 
 int
@@ -59,11 +69,17 @@ main(int argc, char **argv)
     Window *w    = nullptr;
     auto screens = QGuiApplication::screens();
     QList<BasicWindow *> windows;
+    int i = 0;
     for (auto screen : screens) {
-        BasicWindow *window = new BasicWindow;
+        QColor color = Qt::blue;
+        if (i % 2 == 0) {
+            color = Qt::darkYellow;
+        }
+        BasicWindow *window = new BasicWindow(color);
         w                   = Window::registerWindowFromQtScreen(window, screen);
 
         windows.push_back(window);
+        i += 1;
     }
     for (auto window : windows) {
         window->show();
