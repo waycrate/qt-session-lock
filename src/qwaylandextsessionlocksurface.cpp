@@ -2,7 +2,6 @@
 #include "wayland-ext-session-lock-v1-client-protocol.h"
 #include "window.h"
 
-#include <QtWaylandClient/private/qwaylandscreen_p.h>
 #include <QtWaylandClient/private/qwaylandshellsurface_p.h>
 #include <QtWaylandClient/private/qwaylandsurface_p.h>
 #include <QtWaylandClient/private/qwaylandwindow_p.h>
