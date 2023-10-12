@@ -2,11 +2,18 @@
 #include "qwaylandextsessionlocksurface.h"
 #include "wayland-ext-session-lock-v1-client-protocol.h"
 
+#include "interfaces/command.h"
+
 namespace ExtSessionLockV1Qt {
 QWaylandExtSessionLockManagerIntegration::QWaylandExtSessionLockManagerIntegration()
   : QWaylandShellIntegrationTemplate<QWaylandExtSessionLockManagerIntegration>(1)
   , m_lock(new QtWayland::ext_session_lock_v1())
 {
+    connect(Command::instance(), &Command::requestUnlock, this, [this] {
+        if (m_lock->isInitialized()) {
+            m_lock->unlock_and_destroy();
+        }
+    });
 }
 
 QWaylandExtSessionLockManagerIntegration::~QWaylandExtSessionLockManagerIntegration()

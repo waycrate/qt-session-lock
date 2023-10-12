@@ -4,6 +4,7 @@
  *   SPDX-License-Identifier: LGPL-3.0-or-later
  */
 
+#include "interfaces/command.h"
 #include "interfaces/shell.h"
 #include "interfaces/window.h"
 
@@ -66,7 +67,6 @@ main(int argc, char **argv)
 
     QGuiApplication app(argc, argv);
 
-    Window *w    = nullptr;
     auto screens = QGuiApplication::screens();
     QList<BasicWindow *> windows;
     int i = 0;
@@ -76,7 +76,7 @@ main(int argc, char **argv)
             color = Qt::darkYellow;
         }
         BasicWindow *window = new BasicWindow(color);
-        w                   = Window::registerWindowFromQtScreen(window, screen);
+        Window::registerWindowFromQtScreen(window, screen);
 
         windows.push_back(window);
         i += 1;
@@ -84,8 +84,8 @@ main(int argc, char **argv)
     for (auto window : windows) {
         window->show();
     }
-    QTimer::singleShot(10000, &app, [w] {
-        w->unlockScreen();
+    QTimer::singleShot(10000, &app, [] {
+        Command::instance()->unLockScreen();
         QGuiApplication::quit();
     });
 

@@ -27,6 +27,8 @@ target_sources(SessionLockQtInterface PRIVATE
     src/interfaces/window.cpp
     src/interfaces/shell.h
     src/interfaces/shell.cpp
+    src/interfaces/command.h
+    src/interfaces/command.cpp
 )
 
 target_link_libraries(SessionLockQtInterface PUBLIC Qt6::Gui Qt6::Core)
