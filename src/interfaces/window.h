@@ -15,10 +15,11 @@ public:
 
     static Window *get(QWindow *Window);
 
-    static Window* registWindow(QWindow *window, ::wl_output *output);
+    static Window* registerWindow(QWindow *window, ::wl_output *output);
 
     ::wl_output *get_wl_output() { return m_output; };
 
+    void unlockScreen();
 signals:
     void requestUnlock();
 
