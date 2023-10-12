@@ -14,7 +14,6 @@
 #include <QWindow>
 
 #include <QMetaEnum>
-#include <QProcess>
 
 #include <QtWaylandClient/private/qwaylandscreen_p.h>
 #include <QtWaylandClient/private/qwaylandsurface_p.h>
@@ -67,6 +66,8 @@ main(int argc, char **argv)
     Window::registWindow(&window, waylandScreen->output());
 
     window.show();
+
+    QTimer::singleShot(200, &app, &QGuiApplication::quit);
 
     return app.exec();
 }
