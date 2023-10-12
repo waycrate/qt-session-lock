@@ -77,12 +77,9 @@ main(int argc, char **argv)
         }
         BasicWindow *window = new BasicWindow(color);
         Window::registerWindowFromQtScreen(window, screen);
-
+        window->show();
         windows.push_back(window);
         i += 1;
-    }
-    for (auto window : windows) {
-        window->show();
     }
     QTimer::singleShot(2000, &app, [] {
         Command::instance()->unLockScreen();
