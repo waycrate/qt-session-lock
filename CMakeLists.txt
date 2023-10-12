@@ -5,7 +5,7 @@ project(sessionlockqt
     DESCRIPTION "Session Lock Binding for qt6"
 )
 
-set(QT_PLUGIN_INSTALL_DIR "/usr/lib/qt/plugins/" CACHE STRING "QT plugin dir")
+set(QT_PLUGIN_INSTALL_DIR "/usr/lib/qt6/plugins/" CACHE STRING "QT plugin dir")
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)

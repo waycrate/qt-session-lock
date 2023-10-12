@@ -12,7 +12,7 @@ sha256sums=('SKIP')
 
 build() {
   cmake -GNinja \
-        -DQT_PLUGIN_INSTALL_DIR=/usr/lib/qt/plugins/ \
+        -DQT_PLUGIN_INSTALL_DIR=/usr/lib/qt6/plugins/ \
         -DCMAKE_INSTALL_PREFIX=/usr .
   ninja
 }
