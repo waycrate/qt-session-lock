@@ -16,18 +16,11 @@ QWaylandExtLockSurface::QWaylandExtLockSurface(QtWayland::ext_session_lock_v1 *l
   , QtWayland::ext_session_lock_surface_v1()
 {
     QTimer::singleShot(0, [window, lock, this] {
-        auto inteface = Window::get(window->window());
-        if (!inteface) {
-            auto waylandScreen =
-              dynamic_cast<QtWaylandClient::QWaylandScreen *>(window->window()->screen()->handle());
-            init(
-              lock->get_lock_surface(window->waylandSurface()->object(), waylandScreen->output()));
+        ExtSessionLockV1Qt::Window *inteface = Window::get(window->window());
+        Q_ASSERT(inteface);
 
-        } else {
-            init(lock->get_lock_surface(window->waylandSurface()->object(),
-                                        inteface->get_wl_output()));
-            connect(inteface, &Window::requestUnlock, this, [lock] { lock->unlock_and_destroy(); });
-        }
+        init(lock->get_lock_surface(window->waylandSurface()->object(), inteface->get_wl_output()));
+        connect(inteface, &Window::requestUnlock, this, [lock] { lock->unlock_and_destroy(); });
     });
 }
 
