@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QWindow>
+#include <QScreen>
 #include <wayland-client.h>
 
 namespace ExtSessionLockV1Qt {
@@ -15,7 +16,8 @@ public:
 
     static Window *get(QWindow *Window);
 
-    static Window* registerWindow(QWindow *window, ::wl_output *output);
+    static Window* registerWindowFromWlOutput(QWindow *window, ::wl_output *output);
+    static Window* registerWindowFromQtScreen(QWindow *window, QScreen *screen);
 
     ::wl_output *get_wl_output() { return m_output; };
 

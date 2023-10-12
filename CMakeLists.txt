@@ -58,7 +58,7 @@ target_include_directories(sessionlockqt PUBLIC
 )
 
 add_executable(sessionlock-test test/main.cpp)
-target_link_libraries(sessionlock-test PRIVATE SessionLockQtInterface Qt6::Qml Qt6::Gui Wayland::Client Qt6::WaylandClientPrivate)
+target_link_libraries(sessionlock-test PRIVATE SessionLockQtInterface Qt6::Qml Qt6::Gui)
 target_include_directories(sessionlock-test PUBLIC
     src
 )

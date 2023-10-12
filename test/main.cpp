@@ -15,10 +15,6 @@
 
 #include <QMetaEnum>
 
-#include <QtWaylandClient/private/qwaylandscreen_p.h>
-#include <QtWaylandClient/private/qwaylandsurface_p.h>
-#include <QtWaylandClient/private/qwaylandwindow_p.h>
-
 using namespace ExtSessionLockV1Qt;
 
 QStringList
@@ -65,8 +61,7 @@ main(int argc, char **argv)
     QList<BasicWindow *> windows;
     for (auto screen : screens) {
         BasicWindow *window = new BasicWindow;
-        auto waylandScreen  = dynamic_cast<QtWaylandClient::QWaylandScreen *>(screen->handle());
-        w                   = Window::registerWindow(window, waylandScreen->output());
+        w                   = Window::registerWindowFromQtScreen(window, screen);
 
         windows.push_back(window);
     }
