@@ -67,7 +67,5 @@ main(int argc, char **argv)
 
     window.show();
 
-    QTimer::singleShot(200, &app, &QGuiApplication::quit);
-
     return app.exec();
 }

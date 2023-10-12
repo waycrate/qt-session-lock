@@ -2,10 +2,12 @@
 #include "wayland-ext-session-lock-v1-client-protocol.h"
 #include "window.h"
 
+#include <QTimer>
 #include <QtWaylandClient/private/qwaylandscreen_p.h>
 #include <QtWaylandClient/private/qwaylandshellsurface_p.h>
 #include <QtWaylandClient/private/qwaylandsurface_p.h>
 #include <QtWaylandClient/private/qwaylandwindow_p.h>
+
 namespace ExtSessionLockV1Qt {
 
 QWaylandExtLockSurface::QWaylandExtLockSurface(QtWayland::ext_session_lock_v1 *lock,
@@ -13,16 +15,19 @@ QWaylandExtLockSurface::QWaylandExtLockSurface(QtWayland::ext_session_lock_v1 *l
   : QtWaylandClient::QWaylandShellSurface(window)
   , QtWayland::ext_session_lock_surface_v1()
 {
-    auto inteface = Window::get(window->window());
-    if (!inteface) {
-        auto waylandScreen =
-          dynamic_cast<QtWaylandClient::QWaylandScreen *>(window->window()->screen()->handle());
-        init(lock->get_lock_surface(window->waylandSurface()->object(), waylandScreen->output()));
+    QTimer::singleShot(0, [window, lock, this] {
+        auto inteface = Window::get(window->window());
+        if (!inteface) {
+            auto waylandScreen =
+              dynamic_cast<QtWaylandClient::QWaylandScreen *>(window->window()->screen()->handle());
+            init(
+              lock->get_lock_surface(window->waylandSurface()->object(), waylandScreen->output()));
 
-    } else {
-        init(lock->get_lock_surface(window->waylandSurface()->object(), inteface->get_wl_output()));
-    }
-    lock->unlock_and_destroy();
+        } else {
+            init(lock->get_lock_surface(window->waylandSurface()->object(),
+                                        inteface->get_wl_output()));
+        }
+    });
 }
 
 QWaylandExtLockSurface::~QWaylandExtLockSurface()
