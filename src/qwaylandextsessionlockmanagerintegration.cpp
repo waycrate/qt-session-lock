@@ -11,6 +11,10 @@ QWaylandExtSessionLockManagerIntegration::QWaylandExtSessionLockManagerIntegrati
 
 QWaylandExtSessionLockManagerIntegration::~QWaylandExtSessionLockManagerIntegration()
 {
+    if (m_lock) {
+        m_lock->unlock_and_destroy();
+    }
+
     if (object() && ext_session_lock_manager_v1_get_version(object()) >=
                       EXT_SESSION_LOCK_MANAGER_V1_DESTROY_SINCE_VERSION) {
         ext_session_lock_manager_v1_destroy(object());
