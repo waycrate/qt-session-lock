@@ -84,7 +84,7 @@ main(int argc, char **argv)
     for (auto window : windows) {
         window->show();
     }
-    QTimer::singleShot(10000, &app, [] {
+    QTimer::singleShot(2000, &app, [] {
         Command::instance()->unLockScreen();
         QGuiApplication::quit();
     });

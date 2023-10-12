@@ -2,7 +2,6 @@
 #include "wayland-ext-session-lock-v1-client-protocol.h"
 #include "window.h"
 
-#include <QTimer>
 #include <QtWaylandClient/private/qwaylandscreen_p.h>
 #include <QtWaylandClient/private/qwaylandshellsurface_p.h>
 #include <QtWaylandClient/private/qwaylandsurface_p.h>
@@ -15,13 +14,17 @@ QWaylandExtLockSurface::QWaylandExtLockSurface(QtWayland::ext_session_lock_v1 *l
   : QtWaylandClient::QWaylandShellSurface(window)
   , QtWayland::ext_session_lock_surface_v1()
 {
-    QTimer::singleShot(0, [window, lock, this] {
-        ExtSessionLockV1Qt::Window *inteface = Window::get(window->window());
-        Q_ASSERT(inteface);
+    QMetaObject::invokeMethod(
+      this,
+      [window, lock, this] {
+          ExtSessionLockV1Qt::Window *inteface = Window::get(window->window());
+          Q_ASSERT(inteface);
 
-        init(lock->get_lock_surface(window->waylandSurface()->object(), inteface->get_wl_output()));
-        connect(inteface, &Window::requestUnlock, this, [lock] { lock->unlock_and_destroy(); });
-    });
+          init(
+            lock->get_lock_surface(window->waylandSurface()->object(), inteface->get_wl_output()));
+          connect(inteface, &Window::requestUnlock, this, [lock] { lock->unlock_and_destroy(); });
+      },
+      Qt::QueuedConnection);
 }
 
 QWaylandExtLockSurface::~QWaylandExtLockSurface()
