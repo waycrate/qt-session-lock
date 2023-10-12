@@ -60,13 +60,19 @@ main(int argc, char **argv)
 
     QGuiApplication app(argc, argv);
 
-    BasicWindow window;
+    Window *w    = nullptr;
+    auto screens = QGuiApplication::screens();
+    QList<BasicWindow *> windows;
+    for (auto screen : screens) {
+        BasicWindow *window = new BasicWindow;
+        auto waylandScreen  = dynamic_cast<QtWaylandClient::QWaylandScreen *>(screen->handle());
+        w                   = Window::registerWindow(window, waylandScreen->output());
 
-    auto waylandScreen = dynamic_cast<QtWaylandClient::QWaylandScreen *>(window.screen()->handle());
-    Window *w          = Window::registerWindow(&window, waylandScreen->output());
-
-    window.show();
-
+        windows.push_back(window);
+    }
+    for (auto window : windows) {
+        window->show();
+    }
     QTimer::singleShot(10000, &app, [w] {
         w->unlockScreen();
         QGuiApplication::quit();
