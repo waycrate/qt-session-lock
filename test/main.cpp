@@ -49,7 +49,7 @@ class BasicWindow : public QRasterWindow
     void paintEvent(QPaintEvent *) override
     {
         QPainter p(this);
-        p.fillRect(QRect(0, 0, width(), height()), Qt::darkGreen);
+        p.fillRect(QRect(0, 0, width(), height()), Qt::blue);
     }
 };
 

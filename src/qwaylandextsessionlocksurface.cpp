@@ -26,9 +26,7 @@ QWaylandExtLockSurface::QWaylandExtLockSurface(QtWayland::ext_session_lock_v1 *l
         } else {
             init(lock->get_lock_surface(window->waylandSurface()->object(),
                                         inteface->get_wl_output()));
-            connect(inteface, &Window::requestUnlock, this, [lock] {
-                lock->unlock_and_destroy();
-            });
+            connect(inteface, &Window::requestUnlock, this, [lock] { lock->unlock_and_destroy(); });
         }
     });
 }
