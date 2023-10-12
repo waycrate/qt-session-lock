@@ -15,9 +15,12 @@ public:
 
     static Window *get(QWindow *Window);
 
-    static void registWindow(QWindow *window, ::wl_output *output);
+    static Window* registWindow(QWindow *window, ::wl_output *output);
 
     ::wl_output *get_wl_output() { return m_output; };
+
+signals:
+    void requestUnlock();
 
 private:
     QWindow *m_window;

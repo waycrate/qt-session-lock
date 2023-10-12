@@ -63,9 +63,14 @@ main(int argc, char **argv)
     BasicWindow window;
 
     auto waylandScreen = dynamic_cast<QtWaylandClient::QWaylandScreen *>(window.screen()->handle());
-    Window::registWindow(&window, waylandScreen->output());
+    Window *w          = Window::registWindow(&window, waylandScreen->output());
 
     window.show();
+
+    QTimer::singleShot(20000, &app, [w] {
+        Q_EMIT w->requestUnlock();
+        QGuiApplication::quit();
+    });
 
     return app.exec();
 }

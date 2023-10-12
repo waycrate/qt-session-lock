@@ -14,13 +14,14 @@ Window::get(QWindow *window)
     return s_map.value(window);
 }
 
-void
+Window *
 Window::registWindow(QWindow *window, ::wl_output *output)
 {
     Window *w   = new Window;
     w->m_output = output;
     w->m_window = window;
     s_map.insert(window, w);
+    return w;
 }
 
 Window::~Window()
