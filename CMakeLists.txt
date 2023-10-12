@@ -103,6 +103,17 @@ set_target_properties(sessionlockqt PROPERTIES
 install(TARGETS sessionlockqt
         LIBRARY DESTINATION ${QT_PLUGIN_INSTALL_DIR}/wayland-shell-integration)
 
+set(HEADERS
+    src/interfaces/shell.h
+    src/interfaces/window.h
+    src/interfaces/command.h
+)
+
+install(FILES
+    ${HEADERS}
+    DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/SessionLockQt COMPONENT Devel
+)
+
 target_include_directories(sessionlockqt PUBLIC
     src/interfaces
 )
