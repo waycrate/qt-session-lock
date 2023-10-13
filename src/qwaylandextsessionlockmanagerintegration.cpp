@@ -14,6 +14,13 @@ QWaylandExtSessionLockManagerIntegration::QWaylandExtSessionLockManagerIntegrati
             m_lock->unlock_and_destroy();
         }
     });
+
+    connect(Command::instance(), &Command::requestLock, this, [this] {
+        if (!m_lock->isInitialized()) {
+            m_lock->init(lock());
+        }
+        Q_EMIT requestLock();
+    });
 }
 
 QWaylandExtSessionLockManagerIntegration::~QWaylandExtSessionLockManagerIntegration()
@@ -28,10 +35,6 @@ QtWaylandClient::QWaylandShellSurface *
 QWaylandExtSessionLockManagerIntegration::createShellSurface(
   QtWaylandClient::QWaylandWindow *window)
 {
-    if (!m_lock->isInitialized()) {
-        m_lock->init(lock());
-    }
-
-    return new QWaylandExtLockSurface(m_lock, window);
+    return new QWaylandExtLockSurface(this, window);
 }
 }

@@ -23,3 +23,8 @@ Command::unLockScreen()
 {
     Q_EMIT requestUnlock();
 }
+
+void Command::LockScreen()
+{
+    Q_EMIT requestLock();
+}

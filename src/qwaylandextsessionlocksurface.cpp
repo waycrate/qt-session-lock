@@ -8,20 +8,28 @@
 
 namespace ExtSessionLockV1Qt {
 
-QWaylandExtLockSurface::QWaylandExtLockSurface(QtWayland::ext_session_lock_v1 *lock,
-                                               QtWaylandClient::QWaylandWindow *window)
+QWaylandExtLockSurface::QWaylandExtLockSurface(
+  ExtSessionLockV1Qt::QWaylandExtSessionLockManagerIntegration *manager,
+  QtWaylandClient::QWaylandWindow *window)
   : QtWaylandClient::QWaylandShellSurface(window)
   , QtWayland::ext_session_lock_surface_v1()
 {
-    QMetaObject::invokeMethod(
+    ExtSessionLockV1Qt::Window *inteface = Window::get(window->window());
+    Q_ASSERT(inteface);
+    connect(
+      manager,
+      &QWaylandExtSessionLockManagerIntegration::requestLock,
       this,
-      [window, lock, this] {
-          ExtSessionLockV1Qt::Window *inteface = Window::get(window->window());
-          Q_ASSERT(inteface);
-
-          init(
-            lock->get_lock_surface(window->waylandSurface()->object(), inteface->get_wl_output()));
-          connect(inteface, &Window::requestUnlock, this, [lock] { lock->unlock_and_destroy(); });
+      [window, manager, inteface, this] {
+          if (m_isLocked) {
+              return;
+          }
+          m_isLocked = true;
+          init(manager->m_lock->get_lock_surface(window->waylandSurface()->object(),
+                                                 inteface->get_wl_output()));
+          connect(inteface, &Window::requestUnlock, this, [manager] {
+              manager->m_lock->unlock_and_destroy();
+          });
       },
       Qt::QueuedConnection);
 }

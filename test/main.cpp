@@ -68,7 +68,7 @@ main(int argc, char **argv)
     QGuiApplication app(argc, argv);
 
     auto screens = QGuiApplication::screens();
-    int i = 0;
+    int i        = 0;
     for (auto screen : screens) {
         QColor color = Qt::blue;
         if (i % 2 == 0) {
@@ -83,6 +83,7 @@ main(int argc, char **argv)
         Command::instance()->unLockScreen();
         QGuiApplication::quit();
     });
+    Command::instance()->LockScreen();
 
     return app.exec();
 }

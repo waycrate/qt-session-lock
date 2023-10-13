@@ -9,9 +9,11 @@ public:
     static Command *instance();
 
     void unLockScreen();
+    void LockScreen();
 
 signals:
     void requestUnlock();
+    void requestLock();
 
 private:
     explicit Command(QObject *parent = nullptr);

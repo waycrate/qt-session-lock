@@ -1,6 +1,8 @@
 #pragma once
 
 #include "qwayland-ext-session-lock-v1.h"
+#include "src/qwaylandextsessionlockmanagerintegration.h"
+#include "window.h"
 
 #include <QtWaylandClient/private/qwaylandshellsurface_p.h>
 
@@ -11,8 +13,9 @@ class QWaylandExtLockSurface
 {
     Q_OBJECT
 public:
-    explicit QWaylandExtLockSurface(QtWayland::ext_session_lock_v1 *lock,
-                                    QtWaylandClient::QWaylandWindow *window);
+    explicit QWaylandExtLockSurface(
+      ExtSessionLockV1Qt::QWaylandExtSessionLockManagerIntegration *lockmanager,
+      QtWaylandClient::QWaylandWindow *window);
     ~QWaylandExtLockSurface() override;
 
     bool isExposed() const override { return m_configured; }
@@ -26,5 +29,6 @@ private:
 private:
     QSize m_peddingSize;
     bool m_configured = false;
+    bool m_isLocked = false;
 };
 }
