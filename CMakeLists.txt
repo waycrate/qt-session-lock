@@ -47,8 +47,8 @@ target_sources(SessionLockQtInterface PRIVATE
     src/interfaces/command.cpp
 )
 
-target_link_libraries(SessionLockQtInterface PUBLIC Qt6::Gui Qt6::Core)
-target_link_libraries(SessionLockQtInterface PRIVATE Qt6::WaylandClientPrivate Wayland::Client PkgConfig::XKBCOMMON)
+target_link_libraries(SessionLockQtInterface PUBLIC Qt6::Gui Qt6::Core Qt6::WaylandClient Wayland::Client)
+target_link_libraries(SessionLockQtInterface PRIVATE Qt6::WaylandClientPrivate PkgConfig::XKBCOMMON)
 
 set_target_properties(SessionLockQtInterface PROPERTIES
     VERSION ${CMAKE_PROJECT_VERSION}
