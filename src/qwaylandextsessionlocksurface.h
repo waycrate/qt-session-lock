@@ -13,9 +13,8 @@ class QWaylandExtLockSurface
 {
     Q_OBJECT
 public:
-    explicit QWaylandExtLockSurface(
-      ExtSessionLockV1Qt::QWaylandExtSessionLockManagerIntegration *lockmanager,
-      QtWaylandClient::QWaylandWindow *window);
+    explicit QWaylandExtLockSurface(QWaylandExtSessionLockManagerIntegration *lockmanager,
+                                    QtWaylandClient::QWaylandWindow *window);
     ~QWaylandExtLockSurface() override;
 
     bool isExposed() const override { return m_configured; }
@@ -29,6 +28,6 @@ private:
 private:
     QSize m_peddingSize;
     bool m_configured = false;
-    bool m_isLocked = false;
+    bool m_isLocked   = false;
 };
 }

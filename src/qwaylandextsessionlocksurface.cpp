@@ -8,9 +8,8 @@
 
 namespace ExtSessionLockV1Qt {
 
-QWaylandExtLockSurface::QWaylandExtLockSurface(
-  ExtSessionLockV1Qt::QWaylandExtSessionLockManagerIntegration *manager,
-  QtWaylandClient::QWaylandWindow *window)
+QWaylandExtLockSurface::QWaylandExtLockSurface(QWaylandExtSessionLockManagerIntegration *manager,
+                                               QtWaylandClient::QWaylandWindow *window)
   : QtWaylandClient::QWaylandShellSurface(window)
   , QtWayland::ext_session_lock_surface_v1()
 {
