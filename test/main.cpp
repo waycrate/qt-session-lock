@@ -68,7 +68,6 @@ main(int argc, char **argv)
     QGuiApplication app(argc, argv);
 
     auto screens = QGuiApplication::screens();
-    QList<BasicWindow *> windows;
     int i = 0;
     for (auto screen : screens) {
         QColor color = Qt::blue;
@@ -78,7 +77,6 @@ main(int argc, char **argv)
         BasicWindow *window = new BasicWindow(color);
         Window::registerWindowFromQtScreen(window, screen);
         window->show();
-        windows.push_back(window);
         i += 1;
     }
     QTimer::singleShot(2000, &app, [] {
