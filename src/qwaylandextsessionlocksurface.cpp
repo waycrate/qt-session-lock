@@ -35,7 +35,9 @@ QWaylandExtLockSurface::QWaylandExtLockSurface(QWaylandExtSessionLockManagerInte
 
 QWaylandExtLockSurface::~QWaylandExtLockSurface()
 {
-    destroy();
+    if (isInitialized()) {
+        destroy();
+    }
 }
 
 void
