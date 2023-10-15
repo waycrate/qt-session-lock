@@ -2,7 +2,6 @@
 
 #include "qwayland-ext-session-lock-v1.h"
 #include "src/qwaylandextsessionlockmanagerintegration.h"
-#include "window.h"
 
 #include <QtWaylandClient/private/qwaylandshellsurface_p.h>
 
