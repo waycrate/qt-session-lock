@@ -67,7 +67,7 @@ install(TARGETS SessionLockQtInterface
 
 install(EXPORT SessionLockQtTargets
         FILE SessionLockQtTargets.cmake
-        NAMESPACE SessionLockQt
+        NAMESPACE SessionLockQt::
         DESTINATION ${CONFIG_CMAKE_INSTALL_DIR}
 )
 
