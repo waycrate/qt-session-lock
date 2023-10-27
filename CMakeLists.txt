@@ -17,6 +17,7 @@ if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 endif ()
 
 include(GNUInstallDirs)
+include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
 
 set (CONFIG_CMAKE_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/SessionLockQt" CACHE STRING "Install dir for cmake config files")
@@ -46,6 +47,8 @@ target_sources(SessionLockQtInterface PRIVATE
     src/interfaces/command.h
     src/interfaces/command.cpp
 )
+
+generate_export_header(SessionLockQtInterface)
 
 target_link_libraries(SessionLockQtInterface PUBLIC Qt6::Gui Qt6::Core Qt6::WaylandClient Wayland::Client)
 target_link_libraries(SessionLockQtInterface PRIVATE Qt6::WaylandClientPrivate PkgConfig::XKBCOMMON)
@@ -107,6 +110,7 @@ set(HEADERS
     src/interfaces/shell.h
     src/interfaces/window.h
     src/interfaces/command.h
+    ${CMAKE_CURRENT_BINARY_DIR}/sessionlockqtinterface_export.h
 )
 
 install(FILES

@@ -1,8 +1,10 @@
 #pragma once
+
+#include "sessionlockqtinterface_export.h"
 #include <QObject>
 namespace ExtSessionLockV1Qt {
 
-class Command : public QObject
+class SESSIONLOCKQTINTERFACE_EXPORT Command : public QObject
 {
     Q_OBJECT
 public:

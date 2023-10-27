@@ -1,13 +1,14 @@
 #pragma once
 
 #include <QObject>
-#include <QWindow>
 #include <QScreen>
+#include <QWindow>
 #include <wayland-client.h>
+#include "sessionlockqtinterface_export.h"
 
 namespace ExtSessionLockV1Qt {
 
-class Window : public QObject
+class SESSIONLOCKQTINTERFACE_EXPORT Window : public QObject
 {
     Q_OBJECT
 
@@ -16,8 +17,8 @@ public:
 
     static Window *get(QWindow *Window);
 
-    static Window* registerWindowFromWlOutput(QWindow *window, ::wl_output *output);
-    static Window* registerWindowFromQtScreen(QWindow *window, QScreen *screen);
+    static Window *registerWindowFromWlOutput(QWindow *window, ::wl_output *output);
+    static Window *registerWindowFromQtScreen(QWindow *window, QScreen *screen);
 
     ::wl_output *get_wl_output() { return m_output; };
 
