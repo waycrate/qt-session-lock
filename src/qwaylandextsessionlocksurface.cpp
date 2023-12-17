@@ -14,6 +14,7 @@ QWaylandExtLockSurface::QWaylandExtLockSurface(QWaylandExtSessionLockManagerInte
   , QtWayland::ext_session_lock_surface_v1()
 {
     ExtSessionLockV1Qt::Window *inteface = Window::get(window->window());
+    window->waylandSurface()->commit(); // ensure surface is commited, then can be locked safely
     Q_ASSERT(inteface);
     connect(
       manager,
