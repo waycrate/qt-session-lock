@@ -51,7 +51,7 @@ QWaylandExtLockSurface::ext_session_lock_surface_v1_configure(uint32_t serial,
     if (!m_configured) {
         m_configured = true;
         window()->resizeFromApplyConfigure(m_peddingSize);
-        window()->handleExpose(QRect(QPoint(), m_peddingSize));
+        window()->sendRecursiveExposeEvent();
     } else {
         window()->applyConfigureWhenPossible();
     }
