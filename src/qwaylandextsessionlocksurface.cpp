@@ -1,5 +1,4 @@
 #include "qwaylandextsessionlocksurface.h"
-#include "wayland-ext-session-lock-v1-client-protocol.h"
 #include "window.h"
 
 #include <QtWaylandClient/private/qwaylandshellsurface_p.h>
