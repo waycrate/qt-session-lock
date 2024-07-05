@@ -30,7 +30,6 @@ find_package(Qt6WaylandScannerTools REQUIRED)
 find_package(Wayland 1.3 COMPONENTS Client Server)
 find_package(PkgConfig REQUIRED)
 
-
 pkg_check_modules(XKBCOMMON xkbcommon REQUIRED IMPORTED_TARGET)
 
 add_library(SessionLockQtInterface SHARED)
