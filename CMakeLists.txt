@@ -20,7 +20,8 @@ include(GNUInstallDirs)
 include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
 
-set (CONFIG_CMAKE_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/SessionLockQt" CACHE STRING "Install dir for cmake config files")
+set(CONFIG_CMAKE_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/SessionLockQt"
+    CACHE STRING "Install dir for cmake config files")
 
 set(INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/SessionLockQt")
 
@@ -49,8 +50,17 @@ target_sources(SessionLockQtInterface PRIVATE
 
 generate_export_header(SessionLockQtInterface)
 
-target_link_libraries(SessionLockQtInterface PUBLIC Qt6::Gui Qt6::Core Qt6::WaylandClient Wayland::Client)
-target_link_libraries(SessionLockQtInterface PRIVATE Qt6::WaylandClientPrivate PkgConfig::XKBCOMMON)
+target_link_libraries(SessionLockQtInterface PUBLIC
+    Qt6::Gui
+    Qt6::Core
+    Qt6::WaylandClient
+    Wayland::Client
+)
+
+target_link_libraries(SessionLockQtInterface PRIVATE
+    Qt6::WaylandClientPrivate
+    PkgConfig::XKBCOMMON
+)
 
 set_target_properties(SessionLockQtInterface PROPERTIES
     VERSION ${CMAKE_PROJECT_VERSION}
@@ -60,7 +70,7 @@ set_target_properties(SessionLockQtInterface PROPERTIES
 
 target_include_directories(SessionLockQtInterface PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/interfaces>
-    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/SessionLockQt>  # <prefix>/include/mylib
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/SessionLockQt>
 )
 
 install(TARGETS SessionLockQtInterface
@@ -122,7 +132,13 @@ target_include_directories(ext-session-lock-v1 PUBLIC
 )
 
 add_executable(sessionlock-test test/main.cpp)
-target_link_libraries(sessionlock-test PRIVATE SessionLockQtInterface Qt6::Qml Qt6::Gui)
+
+target_link_libraries(sessionlock-test PRIVATE
+    SessionLockQtInterface
+    Qt6::Qml
+    Qt6::Gui
+)
+
 target_include_directories(sessionlock-test PUBLIC
     src
 )
@@ -133,4 +149,5 @@ write_basic_package_version_file(
     COMPATIBILITY SameMajorVersion
 )
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/SessionLockQtConfigVersion.cmake DESTINATION ${CONFIG_CMAKE_INSTALL_DIR})
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/SessionLockQtConfigVersion.cmake
+        DESTINATION ${CONFIG_CMAKE_INSTALL_DIR})
