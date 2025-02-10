@@ -34,8 +34,8 @@ T
 stringToEnum(QMetaEnum metaEnum, const QString &str)
 {
     T ret               = {};
-    const auto splitted = str.split(QLatin1Char('|'), Qt::SkipEmptyParts);
-    for (const auto &value : splitted) {
+    const auto split = str.split(QLatin1Char('|'), Qt::SkipEmptyParts);
+    for (const auto &value : split) {
         ret |= T(metaEnum.keyToValue(qPrintable(value)));
     }
     return ret;

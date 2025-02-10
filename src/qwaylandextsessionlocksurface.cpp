@@ -12,21 +12,21 @@ QWaylandExtLockSurface::QWaylandExtLockSurface(QWaylandExtSessionLockManagerInte
   : QtWaylandClient::QWaylandShellSurface(window)
   , QtWayland::ext_session_lock_surface_v1()
 {
-    ExtSessionLockV1Qt::Window *inteface = Window::get(window->window());
-    window->waylandSurface()->commit(); // ensure surface is commited, then can be locked safely
-    Q_ASSERT(inteface);
+    ExtSessionLockV1Qt::Window *interface = Window::get(window->window());
+    window->waylandSurface()->commit(); // ensure surface is committed, then can be locked safely
+    Q_ASSERT(interface);
     connect(
       manager,
       &QWaylandExtSessionLockManagerIntegration::requestLock,
       this,
-      [window, manager, inteface, this] {
+      [window, manager, interface, this] {
           if (m_isLocked) {
               return;
           }
           m_isLocked = true;
           init(manager->m_lock->get_lock_surface(window->waylandSurface()->object(),
-                                                 inteface->get_wl_output()));
-          connect(inteface, &Window::requestUnlock, this, [manager] {
+                                                 interface->get_wl_output()));
+          connect(interface, &Window::requestUnlock, this, [manager] {
               manager->m_lock->unlock_and_destroy();
           });
       },
