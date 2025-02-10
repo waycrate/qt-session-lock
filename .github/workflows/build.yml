@@ -1,0 +1,25 @@
+name: build lib
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: "build lib"
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+    steps:
+      - name: Install Packages
+        run: |
+          pacman -Syu --noconfirm base-devel git nasm jq ninja cpio wget unzip cmake
+          pacman -Syu --noconfirm qt6-wayland
+      - name: Build
+        run: |
+          cmake -B build
+          cmake --build build
