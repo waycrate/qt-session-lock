@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(sessionlockqt
-    VERSION "1.1.0"
+    VERSION "1.2.0"
     DESCRIPTION "Session Lock Binding for qt6"
 )
 

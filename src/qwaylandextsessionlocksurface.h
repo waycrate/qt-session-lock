@@ -23,6 +23,7 @@ private:
     void ext_session_lock_surface_v1_configure(uint32_t serial,
                                                uint32_t width,
                                                uint32_t height) override;
+    void sendExpose();
 
 private:
     QSize m_peddingSize;
