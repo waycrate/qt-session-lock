@@ -15,7 +15,7 @@ jobs:
     container:
       image: archlinux:latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Install Packages
         run: |
           pacman -Syu --noconfirm base-devel git nasm jq ninja cpio wget unzip cmake
