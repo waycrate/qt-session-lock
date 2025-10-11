@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(sessionlockqt
-    VERSION "1.2.0"
+    VERSION "1.3.0"
     DESCRIPTION "Session Lock Binding for qt6"
 )
 
@@ -25,7 +25,7 @@ set(CONFIG_CMAKE_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/SessionLockQt"
 
 set(INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/SessionLockQt")
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui WaylandClient Qml)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui WaylandClient WaylandClientPrivate Qml)
 find_package(Qt6WaylandScannerTools REQUIRED)
 
 find_package(Wayland 1.3 COMPONENTS Client Server)
