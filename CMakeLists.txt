@@ -95,7 +95,6 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/SessionLockQtConfig.cmake
         DESTINATION ${CONFIG_CMAKE_INSTALL_DIR})
 
 set(HEADERS
-    src/interfaces/shell.h
     src/interfaces/window.h
     src/interfaces/command.h
     ${CMAKE_CURRENT_BINARY_DIR}/sessionlockqtinterface_export.h
