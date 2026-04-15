@@ -32,8 +32,6 @@ find_package(Qt6WaylandScannerTools REQUIRED)
 find_package(Wayland 1.3 COMPONENTS Client Server)
 find_package(PkgConfig REQUIRED)
 
-pkg_check_modules(XKBCOMMON xkbcommon REQUIRED IMPORTED_TARGET)
-
 add_library(SessionLockQtInterface SHARED)
 
 qt6_generate_wayland_protocol_client_sources(SessionLockQtInterface FILES
@@ -63,12 +61,10 @@ target_link_libraries(SessionLockQtInterface PUBLIC
     Qt6::WaylandClient
     Qt6::WaylandClientPrivate
     Wayland::Client
-    PkgConfig::XKBCOMMON
 )
 
 target_link_libraries(SessionLockQtInterface PRIVATE
     Qt6::WaylandClientPrivate
-    PkgConfig::XKBCOMMON
 )
 
 set_target_properties(SessionLockQtInterface PROPERTIES
