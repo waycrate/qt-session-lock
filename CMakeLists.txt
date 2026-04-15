@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(sessionlockqt
-    VERSION "1.3.0"
+    VERSION "2.0.0"
     DESCRIPTION "Session Lock Binding for qt6"
 )
 
@@ -41,8 +41,6 @@ qt6_generate_wayland_protocol_client_sources(SessionLockQtInterface FILES
 target_sources(SessionLockQtInterface PRIVATE
     src/interfaces/window.h
     src/interfaces/window.cpp
-    src/interfaces/shell.h
-    src/interfaces/shell.cpp
     src/interfaces/command.h
     src/interfaces/command.cpp
     src/qwaylandextsessionlocksurface.h

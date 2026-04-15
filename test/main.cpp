@@ -5,7 +5,6 @@
  */
 
 #include "interfaces/command.h"
-#include "interfaces/shell.h"
 #include "interfaces/window.h"
 
 #include <QGuiApplication>
