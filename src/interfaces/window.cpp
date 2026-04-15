@@ -1,6 +1,11 @@
 #include "window.h"
+#include "../qwaylandextsessionlockmanagerintegration.h"
 #include <QMap>
+#include <QPlatformSurfaceEvent>
 #include <QtWaylandClient/private/qwaylandscreen_p.h>
+#include <QtWaylandClient/private/qwaylandwindow_p.h>
+#include <cassert>
+Q_LOGGING_CATEGORY(SESSION_LOCK, "session lock")
 
 namespace ExtSessionLockV1Qt {
 
@@ -33,7 +38,46 @@ Window::registerWindowFromQtScreen(QWindow *window, QScreen *screen)
     w->m_output        = waylandScreen->output();
     w->m_window        = window;
     s_map.insert(window, w);
+    window->installEventFilter(w);
+    if (window->handle()) {
+        w->initializeShell();
+    }
     return w;
+}
+bool
+Window::eventFilter(QObject *watched, QEvent *event)
+{
+    auto window = qobject_cast<QWindow *>(watched);
+    if (!window) {
+        return false;
+    }
+    if (event->type() == QEvent::PlatformSurface) {
+        if (auto pse = static_cast<QPlatformSurfaceEvent *>(event);
+            pse->surfaceEventType() == QPlatformSurfaceEvent::SurfaceCreated) {
+            initializeShell();
+        }
+    }
+    return false;
+}
+
+void
+Window::initializeShell()
+{
+    auto window        = this->m_window;
+    auto waylandWindow = dynamic_cast<QtWaylandClient::QWaylandWindow *>(window->handle());
+    static QWaylandExtSessionLockManagerIntegration *shellIntegration = nullptr;
+    if (!shellIntegration) {
+        shellIntegration = new QWaylandExtSessionLockManagerIntegration();
+        assert(waylandWindow->display() != nullptr);
+        if (!shellIntegration->initialize(waylandWindow->display())) {
+            delete shellIntegration;
+            shellIntegration = nullptr;
+            qCWarning(SESSION_LOCK)
+              << "Failed to initialize layer-shell integration, possibly because compositor does "
+                 "not support the layer-shell protocol";
+        }
+    }
+    waylandWindow->setShellIntegration(shellIntegration);
 }
 
 void

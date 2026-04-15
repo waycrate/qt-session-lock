@@ -1,10 +1,10 @@
 #pragma once
 
+#include "sessionlockqtinterface_export.h"
 #include <QObject>
 #include <QScreen>
 #include <QWindow>
 #include <wayland-client.h>
-#include "sessionlockqtinterface_export.h"
 
 namespace ExtSessionLockV1Qt {
 
@@ -23,8 +23,12 @@ public:
     ::wl_output *get_wl_output() { return m_output; };
 
     void unlockScreen();
+    bool eventFilter(QObject *watched, QEvent *event) override;
 signals:
     void requestUnlock();
+
+private:
+    void initializeShell();
 
 private:
     QWindow *m_window;

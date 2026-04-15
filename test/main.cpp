@@ -63,8 +63,6 @@ private:
 int
 main(int argc, char **argv)
 {
-    Shell::useExtSessionLock();
-
     QGuiApplication app(argc, argv);
 
     auto screens = QGuiApplication::screens();
