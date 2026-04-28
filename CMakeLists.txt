@@ -37,7 +37,6 @@ find_package(PkgConfig REQUIRED)
 
 add_library(SessionLockQtInterface SHARED)
 
-message(STATUS "print ${WaylandProtocols_DATADIR}")
 qt6_generate_wayland_protocol_client_sources(SessionLockQtInterface FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/misc/ext-session-lock-v1.xml
     ${WaylandProtocols_DATADIR}/staging/xdg-activation/xdg-activation-v1.xml
