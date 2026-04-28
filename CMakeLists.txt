@@ -5,7 +5,7 @@ project(sessionlockqt
     DESCRIPTION "Session Lock Binding for qt6"
 )
 
-set(QT_PLUGIN_INSTALL_DIR "/usr/lib/qt6/plugins/" CACHE STRING "QT plugin dir")
+set(QT_QML_DIR "/usr/lib/qt6/qml" CACHE STRING "QT plugin dir")
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -75,7 +75,7 @@ target_include_directories(SessionLockQtInterface PUBLIC
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/SessionLockQt>
 )
 
-qt_add_qml_module(sessionlockquick
+qt_add_qml_module(SessionLockQtQml
     URI Waycrate
     VERSION 1.0
     SOURCES
@@ -83,20 +83,32 @@ qt_add_qml_module(sessionlockquick
         src/qml/SessionLock.cpp
 )
 
-target_link_libraries(sessionlockquick PUBLIC
+target_link_libraries(SessionLockQtQml PUBLIC
     Qt6::Quick
     Qt6::WaylandClient
     Qt6::WaylandClientPrivate
     SessionLockQtInterface
 )
 
-target_include_directories(sessionlockquick PUBLIC
+target_include_directories(SessionLockQtQml PRIVATE
     ${CMAKE_SOURCE_DIR}/src/qml
 )
+set_target_properties(SessionLockQtQml PROPERTIES
+    VERSION ${CMAKE_PROJECT_VERSION}
+    SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
+)
 
-install(TARGETS sessionlockquick
+install(TARGETS SessionLockQtQml
+        EXPORT SessionLockQtTargets
         BUNDLE DESTINATION .
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+set(sessionLockQmlFiles
+    ${CMAKE_CURRENT_BINARY_DIR}/qmldir
+    ${CMAKE_CURRENT_BINARY_DIR}/libSessionLockQtQmlplugin.so
+)
+
+install(FILES ${sessionLockQmlFiles} DESTINATION ${QT_QML_DIR})
 
 install(TARGETS SessionLockQtInterface
         EXPORT SessionLockQtTargets
