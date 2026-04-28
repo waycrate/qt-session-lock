@@ -1,7 +1,7 @@
 #include "SessionLock.h"
 #include <QDebug>
-#include <SessionLockQt/command.h>
-#include <SessionLockQt/window.h>
+#include "../interfaces/command.h"
+#include "../interfaces/window.h"
 #include <private/qwaylandinputdevice_p.h>
 #include <private/qwaylandscreen_p.h>
 #include <private/qwaylandsurface_p.h>
