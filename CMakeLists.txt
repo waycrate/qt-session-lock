@@ -5,7 +5,9 @@ project(sessionlockqt
     DESCRIPTION "Session Lock Binding for qt6"
 )
 
-set(QT_PLUGIN_INSTALL_DIR "/usr/lib/qt6/plugins/" CACHE STRING "QT plugin dir")
+set(QT_QML_DIR "/usr/lib/qt6/qml" CACHE STRING "QT plugin dir")
+set(WaylandProtocols_DATADIR "/usr/share/wayland-protocols/" 
+    CACHE STRING "wayland protocol path")
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -26,16 +28,19 @@ set(CONFIG_CMAKE_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/SessionLockQt"
 set(INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/SessionLockQt")
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui WaylandClient
-             WaylandClientPrivate Qml)
+             WaylandClientPrivate Qml Quick)
 find_package(Qt6WaylandScannerTools REQUIRED)
+find_package(WaylandScanner REQUIRED)
 
 find_package(Wayland 1.3 COMPONENTS Client Server)
 find_package(PkgConfig REQUIRED)
 
 add_library(SessionLockQtInterface SHARED)
 
+message(STATUS "print ${WaylandProtocols_DATADIR}")
 qt6_generate_wayland_protocol_client_sources(SessionLockQtInterface FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/misc/ext-session-lock-v1.xml
+    ${WaylandProtocols_DATADIR}/staging/xdg-activation/xdg-activation-v1.xml
 )
 
 target_sources(SessionLockQtInterface PRIVATE
@@ -47,6 +52,8 @@ target_sources(SessionLockQtInterface PRIVATE
     src/qwaylandextsessionlocksurface.cpp
     src/qwaylandextsessionlockmanagerintegration.h
     src/qwaylandextsessionlockmanagerintegration.cpp
+    src/qwaylandxdgactivationv1.h
+    src/qwaylandxdgactivationv1.cpp
     src/qwaylandextsessionlockintegrationplugin.h
     src/qwaylandextsessionlockintegrationplugin.cpp
 )
@@ -74,6 +81,49 @@ target_include_directories(SessionLockQtInterface PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/interfaces>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/SessionLockQt>
 )
+
+qt_add_qml_module(SessionLockQtQml
+    URI WayCrate.SessionLock
+    VERSION 1.0
+    SOURCES
+        src/qml/SessionLock.h
+        src/qml/SessionLock.cpp
+)
+
+target_link_libraries(SessionLockQtQml PUBLIC
+    Qt6::Quick
+    Qt6::WaylandClient
+    Qt6::WaylandClientPrivate
+    SessionLockQtInterface
+)
+
+target_include_directories(SessionLockQtQml PRIVATE
+    ${CMAKE_SOURCE_DIR}/src/qml
+)
+set_target_properties(SessionLockQtQml PROPERTIES
+    VERSION ${CMAKE_PROJECT_VERSION}
+    SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
+    EXPORT_NAME QtQml
+)
+
+install(TARGETS SessionLockQtQml
+        EXPORT SessionLockQtTargets
+        BUNDLE DESTINATION .
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+set(PACKAGE_NAMESPACE "WayCrate/SessionLock")
+set(QML_DIR
+    ${CMAKE_CURRENT_BINARY_DIR}/qmldir
+)
+
+install(TARGETS SessionLockQtQmlplugin
+        DESTINATION ${QT_QML_DIR}/${PACKAGE_NAMESPACE})
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qmldir
+        DESTINATION ${QT_QML_DIR}/${PACKAGE_NAMESPACE})
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/SessionLockQtQml.qmltypes
+        DESTINATION ${QT_QML_DIR}/${PACKAGE_NAMESPACE})
 
 install(TARGETS SessionLockQtInterface
         EXPORT SessionLockQtTargets

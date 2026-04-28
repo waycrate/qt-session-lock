@@ -19,7 +19,7 @@ jobs:
       - name: Install Packages
         run: |
           pacman -Syu --noconfirm base-devel git nasm jq ninja cpio wget unzip cmake
-          pacman -Syu --noconfirm qt6-wayland
+          pacman -Syu --noconfirm qt6-wayland wayland-protocols
       - name: Build
         run: |
           cmake -B build
