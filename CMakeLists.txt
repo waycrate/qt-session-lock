@@ -112,7 +112,14 @@ set(QML_DIR
 install(TARGETS SessionLockQtQmlplugin
         DESTINATION ${QT_QML_DIR}/${PACKAGE_NAMESPACE})
 
-install(FILES ${QML_DIR}
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qmldir
+        DESTINATION ${QT_QML_DIR}/${PACKAGE_NAMESPACE})
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/qmldir
+        DESTINATION ${QT_QML_DIR}/${PACKAGE_NAMESPACE})
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/SessionLockQtQml.qmltypes
+        RENAME "plugins.qmltypes"
         DESTINATION ${QT_QML_DIR}/${PACKAGE_NAMESPACE})
 
 install(TARGETS SessionLockQtInterface
