@@ -75,7 +75,7 @@ target_include_directories(SessionLockQtInterface PUBLIC
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/SessionLockQt>
 )
 
-qt_add_qml_module(sessionlockqt
+qt_add_qml_module(sessionlockquick
     URI Waycrate
     VERSION 1.0
     SOURCES
@@ -83,16 +83,20 @@ qt_add_qml_module(sessionlockqt
         src/qml/SessionLock.cpp
 )
 
-target_link_libraries(sessionlockqt PUBLIC
+target_link_libraries(sessionlockquick PUBLIC
     Qt6::Quick
     Qt6::WaylandClient
     Qt6::WaylandClientPrivate
     SessionLockQtInterface
 )
 
-target_include_directories(sessionlockqt PUBLIC
+target_include_directories(sessionlockquick PUBLIC
     ${CMAKE_SOURCE_DIR}/src/qml
 )
+
+install(TARGETS sessionlockquick
+        BUNDLE DESTINATION .
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
 install(TARGETS SessionLockQtInterface
         EXPORT SessionLockQtTargets
