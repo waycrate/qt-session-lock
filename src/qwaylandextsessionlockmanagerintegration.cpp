@@ -1,5 +1,6 @@
 #include "qwaylandextsessionlockmanagerintegration.h"
 #include "qwaylandextsessionlocksurface.h"
+#include "qwaylandxdgactivationv1.h"
 #include "wayland-ext-session-lock-v1-client-protocol.h"
 
 #include "interfaces/command.h"
@@ -8,6 +9,7 @@ namespace ExtSessionLockV1Qt {
 QWaylandExtSessionLockManagerIntegration::QWaylandExtSessionLockManagerIntegration()
   : QWaylandShellIntegrationTemplate<QWaylandExtSessionLockManagerIntegration>(1)
   , m_lock(new QtWayland::ext_session_lock_v1())
+  , m_xdgActivation(new QWaylandXdgActivationV1)
 {
     connect(Command::instance(), &Command::requestUnlock, this, [this] {
         if (m_lock->isInitialized()) {

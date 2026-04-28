@@ -6,6 +6,8 @@ project(sessionlockqt
 )
 
 set(QT_QML_DIR "/usr/lib/qt6/qml" CACHE STRING "QT plugin dir")
+set(WaylandProtocols_DATADIR "/usr/share/wayland-protocols/" 
+    CACHE STRING "wayland protocol path")
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -28,14 +30,17 @@ set(INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/SessionLockQt")
 find_package(Qt6 REQUIRED COMPONENTS Core Gui WaylandClient
              WaylandClientPrivate Qml Quick)
 find_package(Qt6WaylandScannerTools REQUIRED)
+find_package(WaylandScanner REQUIRED)
 
 find_package(Wayland 1.3 COMPONENTS Client Server)
 find_package(PkgConfig REQUIRED)
 
 add_library(SessionLockQtInterface SHARED)
 
+message(STATUS "print ${WaylandProtocols_DATADIR}")
 qt6_generate_wayland_protocol_client_sources(SessionLockQtInterface FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/misc/ext-session-lock-v1.xml
+    ${WaylandProtocols_DATADIR}/staging/xdg-activation/xdg-activation-v1.xml
 )
 
 target_sources(SessionLockQtInterface PRIVATE
@@ -47,6 +52,8 @@ target_sources(SessionLockQtInterface PRIVATE
     src/qwaylandextsessionlocksurface.cpp
     src/qwaylandextsessionlockmanagerintegration.h
     src/qwaylandextsessionlockmanagerintegration.cpp
+    src/qwaylandxdgactivationv1.h
+    src/qwaylandxdgactivationv1.cpp
     src/qwaylandextsessionlockintegrationplugin.h
     src/qwaylandextsessionlockintegrationplugin.cpp
 )

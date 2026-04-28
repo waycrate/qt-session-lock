@@ -7,6 +7,7 @@ namespace ExtSessionLockV1Qt {
 class SESSIONLOCKQTINTERFACE_EXPORT Command : public QObject
 {
     Q_OBJECT
+
 public:
     static Command *instance();
 

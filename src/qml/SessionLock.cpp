@@ -1,13 +1,13 @@
 #include "SessionLock.h"
+#include "command.h"
+#include "window.h"
 #include <QDebug>
-#include "../interfaces/command.h"
-#include "../interfaces/window.h"
-#include <private/qwaylandinputdevice_p.h>
 #include <private/qwaylandscreen_p.h>
 #include <private/qwaylandsurface_p.h>
 #include <private/qwaylandwindow_p.h>
+#include <qloggingcategory.h>
 
-static QtWaylandClient::QWaylandWindow *oldWindow = nullptr;
+Q_LOGGING_CATEGORY(SessionLockQt, "SessionLockQt");
 
 WlSessionLock::WlSessionLock(QObject *parent)
   : QObject(parent)
@@ -41,7 +41,7 @@ WlSessionLock::initScreens()
             auto *instance = qobject_cast<WlSessionLockSurface *>(instanceObj);
 
             if (instance == nullptr) {
-                qWarning()
+                qCWarning(SessionLockQt)
                   << "WlSessionLock.surface does not create a WlSessionLockSurface. Aborting lock.";
                 if (instanceObj != nullptr)
                     instanceObj->deleteLater();
@@ -75,7 +75,7 @@ WlSessionLock::setSurfaceComponent(QQmlComponent *surfaceComponent)
 
     // NOTE: init start
     initScreens();
-    ExtSessionLockV1Qt::Command::instance()->LockScreen();
+
     m_lock = true;
     Q_EMIT lockStateChanged();
 }
@@ -89,7 +89,7 @@ WlSessionLock::onScreenAdded(QScreen *screen)
         auto *instance = qobject_cast<WlSessionLockSurface *>(instanceObj);
 
         if (instance == nullptr) {
-            qWarning()
+            qCWarning(SessionLockQt)
               << "WlSessionLock.surface does not create a WlSessionLockSurface. Aborting lock.";
             if (instanceObj != nullptr)
                 instanceObj->deleteLater();
@@ -135,8 +135,8 @@ WlSessionLockSurface::WlSessionLockSurface(QObject *parent)
     connect(this->m_window, &QQuickWindow::widthChanged, this, [this](int width) {
         m_contentItem->setWidth(width);
     });
-    connect(this->m_window, &QQuickWindow::heightChanged, this, [this](int width) {
-        m_contentItem->setHeight(width);
+    connect(this->m_window, &QQuickWindow::heightChanged, this, [this](int height) {
+        m_contentItem->setHeight(height);
     });
 }
 
@@ -144,25 +144,8 @@ void
 WlSessionLockSurface::setScreen(QScreen *screen)
 {
     ExtSessionLockV1Qt::Window::registerWindowFromQtScreen(m_window, screen);
-    auto input = m_window->findChild<QQuickItem *>("input");
-    QObject::connect(input, &QQuickItem::focusChanged, input, [input](auto focus) {
-        if (!focus)
-            return;
-        auto focusWindow  = input->window();
-        auto wFocusWindow = dynamic_cast<QtWaylandClient::QWaylandWindow *>(focusWindow->handle());
-        wFocusWindow->display()->handleWindowActivated(wFocusWindow);
-        if (wFocusWindow->display()->defaultInputDevice() &&
-            wFocusWindow->display()->defaultInputDevice()->keyboard()) {
-            wFocusWindow->display()->defaultInputDevice()->keyboard()->mFocus =
-              wFocusWindow->waylandSurface();
-        }
-        if (oldWindow && oldWindow != wFocusWindow) {
-            oldWindow->display()->handleWindowDeactivated(oldWindow);
-        }
-        oldWindow = wFocusWindow;
-    });
-
     m_window->show();
+    ExtSessionLockV1Qt::Command::instance()->LockScreen();
 }
 
 QQmlListProperty<QObject>
