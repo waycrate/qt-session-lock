@@ -26,7 +26,7 @@ set(CONFIG_CMAKE_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/SessionLockQt"
 set(INCLUDE_DIR "${CMAKE_INSTALL_INCLUDEDIR}/SessionLockQt")
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui WaylandClient
-             WaylandClientPrivate Qml)
+             WaylandClientPrivate Qml Quick)
 find_package(Qt6WaylandScannerTools REQUIRED)
 
 find_package(Wayland 1.3 COMPONENTS Client Server)
@@ -73,6 +73,25 @@ set_target_properties(SessionLockQtInterface PROPERTIES
 target_include_directories(SessionLockQtInterface PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/interfaces>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}/SessionLockQt>
+)
+
+qt_add_qml_module(sessionlockqt
+    URI Waycrate
+    VERSION 1.0
+    SOURCES
+        src/qml/SessionLock.h
+        src/qml/SessionLock.cpp
+)
+
+target_link_libraries(sessionlockqt PUBLIC
+    Qt6::Quick
+    Qt6::WaylandClient
+    Qt6::WaylandClientPrivate
+    SessionLockQtInterface
+)
+
+target_include_directories(sessionlockqt PUBLIC
+    ${CMAKE_SOURCE_DIR}/src/qml
 )
 
 install(TARGETS SessionLockQtInterface
