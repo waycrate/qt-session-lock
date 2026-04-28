@@ -96,22 +96,16 @@ target_include_directories(SessionLockQtQml PRIVATE
 set_target_properties(SessionLockQtQml PROPERTIES
     VERSION ${CMAKE_PROJECT_VERSION}
     SOVERSION ${CMAKE_PROJECT_VERSION_MAJOR}
+    EXPORT_NAME QtQml
 )
 
 install(TARGETS SessionLockQtQml
         EXPORT SessionLockQtTargets
-        EXPORT_NAME QtQml
         BUNDLE DESTINATION .
         LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
-set(PACKAGE_NAMESPACE "Waycrate/SessionLock")
-set(SessionLockQmlFiles
-    ${CMAKE_CURRENT_BINARY_DIR}/qmldir
-    ${CMAKE_CURRENT_BINARY_DIR}/libSessionLockQtQmlplugin.so
-)
-
-install(FILES ${SessionLockQmlFiles}
-        DESTINATION ${QT_QML_DIR}/${PACKAGE_NAMESPACE})
+install(TARGETS SessionLockQtQmlplugin
+        DESTINATION ${QT_QML_DIR})
 
 install(TARGETS SessionLockQtInterface
         EXPORT SessionLockQtTargets
