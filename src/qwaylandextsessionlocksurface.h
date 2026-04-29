@@ -23,11 +23,17 @@ public:
     void setXdgActivationToken(const QString &token) override;
     void requestXdgActivationToken(quint32 serial) override;
 
+    void requestWindowStates(Qt::WindowStates states) override;
+
+    std::any surfaceRole() const override;
+
 private:
     void ext_session_lock_surface_v1_configure(uint32_t serial,
                                                uint32_t width,
                                                uint32_t height) override;
     void sendExpose();
+
+    void focusWindow();
 
 private:
     QSize m_peddingSize;
@@ -36,5 +42,6 @@ private:
     bool m_isLocked   = false;
     QString m_activationToken;
     QtWaylandClient::QWaylandWindow *m_window;
+    QtWayland::ext_session_lock_surface_v1 *m_surface;
 };
 }

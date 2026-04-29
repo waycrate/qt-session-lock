@@ -7,6 +7,8 @@
 #include <QtWaylandClient/private/qwaylandsurface_p.h>
 #include <QtWaylandClient/private/qwaylandwindow_p.h>
 
+static QtWaylandClient::QWaylandWindow *oldWindow = nullptr;
+
 namespace ExtSessionLockV1Qt {
 
 QWaylandExtLockSurface::QWaylandExtLockSurface(QWaylandExtSessionLockManagerIntegration *manager,
@@ -27,9 +29,11 @@ QWaylandExtLockSurface::QWaylandExtLockSurface(QWaylandExtSessionLockManagerInte
           if (m_isLocked) {
               return;
           }
-          m_isLocked = true;
-          init(manager->m_lock->get_lock_surface(window->waylandSurface()->object(),
-                                                 interface->get_wl_output()));
+          m_isLocked   = true;
+          auto surface = manager->m_lock->get_lock_surface(window->waylandSurface()->object(),
+                                                           interface->get_wl_output());
+          init(surface);
+          m_surface = QtWayland::ext_session_lock_surface_v1::fromObject(surface);
           connect(interface, &Window::requestUnlock, this, [manager] {
               manager->m_lock->unlock_and_destroy();
           });
@@ -49,10 +53,10 @@ QWaylandExtLockSurface::ext_session_lock_surface_v1_configure(uint32_t serial,
                                                               uint32_t width,
                                                               uint32_t height)
 {
-    ack_configure(serial);
     m_peddingSize = QSize(width, height);
     if (!m_configured) {
         m_configured = true;
+        ack_configure(serial);
         window()->resizeFromApplyConfigure(m_peddingSize);
         this->sendExpose();
     } else {
@@ -81,6 +85,39 @@ void
 QWaylandExtLockSurface::setXdgActivationToken(const QString &token)
 {
     m_activationToken = token;
+}
+
+void
+QWaylandExtLockSurface::requestWindowStates(Qt::WindowStates states)
+{
+    if (states & Qt::WindowActive) {
+        this->focusWindow();
+    }
+}
+
+std::any
+QWaylandExtLockSurface::surfaceRole() const
+{
+    if (m_surface) {
+        return m_surface->object();
+    }
+    return {};
+}
+
+void
+QWaylandExtLockSurface::focusWindow()
+{
+    auto wFocusWindow = m_window;
+    wFocusWindow->display()->handleWindowActivated(wFocusWindow);
+    if (wFocusWindow->display()->defaultInputDevice() &&
+        wFocusWindow->display()->defaultInputDevice()->keyboard()) {
+        wFocusWindow->display()->defaultInputDevice()->keyboard()->mFocus =
+          wFocusWindow->waylandSurface();
+    }
+    if (oldWindow && oldWindow != wFocusWindow) {
+        oldWindow->display()->handleWindowDeactivated(oldWindow);
+    }
+    oldWindow = wFocusWindow;
 }
 
 void
