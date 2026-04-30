@@ -23,6 +23,10 @@ public:
     QtWaylandClient::QWaylandShellSurface *
     createShellSurface(QtWaylandClient::QWaylandWindow *window) override;
     QWaylandXdgActivationV1 *activation() const { return m_xdgActivation.data(); }
+
+public slots:
+    void tryLockScreen();
+    void tryUnlockScreen();
 signals:
     void requestLock();
 

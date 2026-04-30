@@ -1,5 +1,6 @@
 #pragma once
 
+#include "command.h"
 #include "sessionlockqtinterface_export.h"
 #include <QObject>
 #include <QScreen>
@@ -7,10 +8,12 @@
 #include <wayland-client.h>
 
 namespace ExtSessionLockV1Qt {
-
+class QWaylandExtSessionLockManagerIntegration;
 class SESSIONLOCKQTINTERFACE_EXPORT Window : public QObject
 {
     Q_OBJECT
+
+    friend Command;
 
 public:
     ~Window() override;
@@ -29,6 +32,7 @@ signals:
 
 private:
     void initializeShell();
+    static QWaylandExtSessionLockManagerIntegration *sessionLockManager();
 
 private:
     QWindow *m_window;

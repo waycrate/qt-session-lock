@@ -1,5 +1,6 @@
 #include "command.h"
-
+#include "../qwaylandextsessionlockmanagerintegration.h"
+#include "window.h"
 using namespace ExtSessionLockV1Qt;
 
 static Command *BACKEND_INSTANCE = nullptr;
@@ -21,10 +22,21 @@ Command::instance()
 void
 Command::unLockScreen()
 {
-    Q_EMIT requestUnlock();
+    auto manager = Window::sessionLockManager();
+    if (manager) {
+        manager->tryUnlockScreen();
+    } else {
+        Q_EMIT requestUnlock();
+    }
 }
 
-void Command::LockScreen()
+void
+Command::LockScreen()
 {
-    Q_EMIT requestLock();
+    auto manager = Window::sessionLockManager();
+    if (manager) {
+        manager->tryLockScreen();
+    } else {
+        Q_EMIT requestLock();
+    }
 }

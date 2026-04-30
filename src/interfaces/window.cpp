@@ -11,6 +11,14 @@ namespace ExtSessionLockV1Qt {
 
 static QMap<QWindow *, Window *> s_map;
 
+static QWaylandExtSessionLockManagerIntegration *shellIntegration = nullptr;
+
+QWaylandExtSessionLockManagerIntegration *
+Window::sessionLockManager()
+{
+    return shellIntegration;
+}
+
 Window *
 Window::get(QWindow *window)
 {
@@ -65,7 +73,7 @@ Window::initializeShell()
 {
     auto window        = this->m_window;
     auto waylandWindow = dynamic_cast<QtWaylandClient::QWaylandWindow *>(window->handle());
-    static QWaylandExtSessionLockManagerIntegration *shellIntegration = nullptr;
+
     if (!shellIntegration) {
         shellIntegration = new QWaylandExtSessionLockManagerIntegration();
         assert(waylandWindow->display() != nullptr);
@@ -83,7 +91,11 @@ Window::initializeShell()
 void
 Window::unlockScreen()
 {
-    Q_EMIT requestUnlock();
+    if (shellIntegration) {
+        shellIntegration->tryUnlockScreen();
+    } else {
+        Q_EMIT requestUnlock();
+    }
 }
 
 Window::~Window()
