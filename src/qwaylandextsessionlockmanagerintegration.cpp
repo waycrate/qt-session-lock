@@ -24,7 +24,11 @@ QWaylandExtSessionLockManagerIntegration::QWaylandExtSessionLockManagerIntegrati
 
     connect(Command::instance(), &Command::requestLock, this, [this] {
         if (!m_lock) {
+            // NOTE: if no lock, wait the callback, then send the signal
             m_lock = new QWaylandExtSessionLock(this);
+        } else {
+            // NOTE: just tell it is ok to generate a new window
+            Q_EMIT requestLock();
         }
     });
 }
