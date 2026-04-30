@@ -2,10 +2,12 @@
 
 #include <QtWaylandClient/private/qwaylandshellintegration_p.h>
 #include <qwayland-ext-session-lock-v1.h>
+#include <qwaylandclientextension.h>
 
 class QWaylandXdgActivationV1;
 namespace ExtSessionLockV1Qt {
 class QWaylandExtLockSurface;
+class QWaylandExtSessionLock;
 class QWaylandExtSessionLockManagerIntegration
   : public QtWaylandClient::QWaylandShellIntegrationTemplate<
       QWaylandExtSessionLockManagerIntegration>
@@ -25,10 +27,28 @@ signals:
     void requestLock();
 
 private:
-    QtWayland::ext_session_lock_v1 *m_lock;
+    QWaylandExtSessionLock *m_lock;
 
 private:
     QScopedPointer<QWaylandXdgActivationV1> m_xdgActivation;
+};
+
+class QWaylandExtSessionLock
+  : public QObject
+  , public QtWayland::ext_session_lock_v1
+
+{
+    Q_OBJECT
+public:
+    explicit QWaylandExtSessionLock(QWaylandExtSessionLockManagerIntegration *manager,
+                                    QObject *parent = nullptr);
+    ~QWaylandExtSessionLock() override;
+
+    void ext_session_lock_v1_locked() override;
+    void ext_session_lock_v1_finished() override;
+
+private:
+    QWaylandExtSessionLockManagerIntegration *m_manager;
 };
 
 }

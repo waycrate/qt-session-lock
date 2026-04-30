@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QtWaylandClient/private/qwaylandshellintegrationplugin_p.h>
-
 class QWaylandExtSessionLockIntegrationPlugin
   : public QtWaylandClient::QWaylandShellIntegrationPlugin
 {

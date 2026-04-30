@@ -32,7 +32,7 @@ template<typename T>
 T
 stringToEnum(QMetaEnum metaEnum, const QString &str)
 {
-    T ret               = {};
+    T ret            = {};
     const auto split = str.split(QLatin1Char('|'), Qt::SkipEmptyParts);
     for (const auto &value : split) {
         ret |= T(metaEnum.keyToValue(qPrintable(value)));
