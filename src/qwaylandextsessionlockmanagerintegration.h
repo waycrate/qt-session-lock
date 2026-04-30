@@ -40,8 +40,7 @@ class QWaylandExtSessionLock
 {
     Q_OBJECT
 public:
-    explicit QWaylandExtSessionLock(QWaylandExtSessionLockManagerIntegration *manager,
-                                    QObject *parent = nullptr);
+    explicit QWaylandExtSessionLock(QWaylandExtSessionLockManagerIntegration *manager);
     ~QWaylandExtSessionLock() override;
 
     void ext_session_lock_v1_locked() override;

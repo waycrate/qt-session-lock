@@ -44,9 +44,8 @@ QWaylandExtSessionLockManagerIntegration::createShellSurface(
     return new QWaylandExtLockSurface(this, window);
 }
 
-QWaylandExtSessionLock::QWaylandExtSessionLock(QWaylandExtSessionLockManagerIntegration *manager,
-                                               QObject *parent)
-  : QObject(parent)
+QWaylandExtSessionLock::QWaylandExtSessionLock(QWaylandExtSessionLockManagerIntegration *manager)
+  : QObject(manager)
   , QtWayland::ext_session_lock_v1(manager->lock())
   , m_manager(manager)
 {
